@@ -6,5 +6,4 @@ coverage/
 .DS_Store
 .idea/
 .vscode/
-demo_artifacts/*.png
-demo_artifacts/*.log
+demo_artifacts/
