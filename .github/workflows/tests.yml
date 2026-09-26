@@ -1,0 +1,41 @@
+name: Pruebas automatizadas
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Pruebas unitarias (sin PostgreSQL)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+      - name: Instalar dependencias desde el archivo de bloqueo
+        run: npm ci
+      - name: Ejecutar pruebas unitarias
+        run: npm run test:unit
+
+  integration-tests:
+    name: Pruebas de integración (PostgreSQL Testcontainers)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+      - name: Instalar dependencias desde el archivo de bloqueo
+        run: npm ci
+      - name: Ejecutar pruebas de integración con PostgreSQL temporal
+        run: npm run test:integration
